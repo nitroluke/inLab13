@@ -40,6 +40,9 @@ int main(int argc, char *argv[]){
 	}
 	//printLinkedList(headNode);
 	recursivePrint(headNode);
+	puts("\nThis is for the Extra credit\n");
+	puts("printing the fourth letter");
+	printf("%c", headNode->nextNode->nextNode->nextNode->nextNode->nodeData);
 	return 0;
 }
 
@@ -68,13 +71,14 @@ ofTypeNode *insertData(char nodeData, ofTypeNode *headNode){
 }
 
 ofTypeNode *insertRecurse(ofTypeNode *headNode, ofTypeNode *curNode){
-    //puts("inserting recursively");
+	// for some reason it is going inside of that if statement twice...
+	
 	if(headNode->nextNode == NULL){ // the next letter can be inserted
+		puts("inserting recursively");
 		headNode->nextNode = curNode;
 		curNode->nextNode = NULL;
 		//printf("%c", curNode->nodeData);
-		
-		return;
+		return;  // a node has been inserted, so exit
 	}
 	insertRecurse(headNode->nextNode, curNode);
 	
