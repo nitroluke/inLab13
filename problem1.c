@@ -18,23 +18,18 @@ void printLinkedList(ofTypeNode *headNode);
 void recursivePrint(ofTypeNode *headNode);
 
 int main(int argc, char *argv[]){
-	int i;
-	int j;
-	for(i = 1; i < 4; i++){ // the number of words you have as arguments
-		for(j = 0; j < 10; j++){ // the max number of letters in your words (it's set to 10 becuase no words will be loger than 10)
-			headNode = insertData(argv[i][j], headNode);
-			if(argv[i][j] == '\0'){
+	int iCount;
+	int jCount;
+	for(iCount = 1; iCount < 3; iCount++){ // the number of words you have as arguments.  Change this if you want more words as arguments, right now it is "Ada Lovelace"
+		for(jCount = 0; jCount < 10; jCount++){ // the max number of letters in your words (it's set to 10 because no words will be longer than 10) and my code handles if a word is shorter than the given int counter
+			if(argv[iCount][jCount] == '\0'){
 				
 				break;
 			}
 			//printf("%c", argv[i][j]);
 			//puts("inserting a node");
-			printf("inserting nodeData %c \n", argv[i][j]);
-			headNode = insertData(argv[i][j], headNode);
-			if(headNode == NULL){
-				puts("headNode is null in main");
-				return;
-			}
+			printf("inserting nodeData %c \n", argv[iCount][jCount]);
+			headNode = insertData(argv[iCount][jCount], headNode);
 		}
 		puts("\n");
 	}
@@ -42,7 +37,7 @@ int main(int argc, char *argv[]){
 	recursivePrint(headNode);
 	puts("\nThis is for the Extra credit\n");
 	puts("printing the fourth letter");
-	printf("%c", headNode->nextNode->nextNode->nextNode->nextNode->nodeData);
+	printf("%c", headNode->nextNode->nextNode->nextNode->nodeData);
 	return 0;
 }
 
@@ -52,48 +47,42 @@ ofTypeNode *insertData(char nodeData, ofTypeNode *headNode){
 	curNode->nodeData = nodeData;
 	
 	if(curNode == NULL){
-		puts("curNode is null for some reason");
-		curNode->nextNode = NULL;
+		puts("curNode is null for some reason this should never happen");
 		return;
 	}
 	if(headNode == NULL){ // there are no nodes in the linked list
-		puts("this should print once");
 		curNode->nextNode = NULL;
-		//printf("hjkhjk  %c   ", curNode->nodeData);
 		return curNode;
 	}else{ // there is a node in the linked list
 		insertRecurse(headNode, curNode);
-		return headNode;
-		//puts("bleh");
+		return;
 	}
-
-	//printf("%c", nodeData);
+	return;
 }
 
 ofTypeNode *insertRecurse(ofTypeNode *headNode, ofTypeNode *curNode){
-	// for some reason it is going inside of that if statement twice...
-	
 	if(headNode->nextNode == NULL){ // the next letter can be inserted
-		puts("inserting recursively");
+		printf("inserting curNode, curNode = %c\n", curNode->nodeData);
 		headNode->nextNode = curNode;
 		curNode->nextNode = NULL;
-		//printf("%c", curNode->nodeData);
-		return;  // a node has been inserted, so exit
+		return headNode;  // a node has been inserted, so exit
+	}else{ // an empty place has not been found. try to insert using the next node
+		insertRecurse(headNode->nextNode, curNode);
+		return headNode;
 	}
-	insertRecurse(headNode->nextNode, curNode);
-	
+	return headNode;
 }
 
-void printLinkedList(ofTypeNode *headNode){
+void printLinkedList(ofTypeNode *headNode){  // non-recursive print function
 puts("printing linked list");
 	while(headNode != NULL){
 		printf("%c", headNode->nodeData);
 		headNode = headNode->nextNode;
 	}
-	//removed a return here
 }
 
-void recursivePrint(ofTypeNode *headNode){
+void recursivePrint(ofTypeNode *headNode){ // recursive print function
+puts("recursively printing the linked list");
 	if(headNode != NULL){
 		printf("%c \n", headNode->nodeData);
 		recursivePrint(headNode->nextNode);
